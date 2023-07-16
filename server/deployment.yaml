@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-manager-server-deployment
+  labels:
+    name: transaction-manager-server-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: transaction-manager-server-pod
+  template:
+    metadata:
+      name: transaction-manager-server-pod
+      labels:
+        name: transaction-manager-server-pod
+    spec:
+      containers:
+        - name: transaction-manager-server-container
+          image: orionbs/transaction_manager_server:main
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
+              value: com.mysql.cj.jdbc.Driver
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-cluster-service/transaction_database?createDatabaseIfNotExist=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+

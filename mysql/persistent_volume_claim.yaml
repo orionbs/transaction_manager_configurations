@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-persistent-volume-claim
+  labels:
+    name: mysql-persistent-volume-claim
+spec:
+  resources:
+    requests:
+      storage: 3Gi
+    limits:
+      storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard-rwo

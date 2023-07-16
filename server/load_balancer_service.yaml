@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: transaction-manager-server-load-balancer-service
+  labels:
+    name: transaction-manager-server-load-balancer-service
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    name: transaction-manager-server-pod
+  ports:
+    - port: 80
+      targetPort: 8080
